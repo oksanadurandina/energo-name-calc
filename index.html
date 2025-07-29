@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Калькулятор энергетического имени</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, #e6e0f8, #f5f2ff);
+      color: #333;
+      padding: 40px 20px;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      text-align: center;
+      color: #6a00ff;
+    }
+    input, button {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #6a00ff;
+      color: white;
+      border: none;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background-color: #4a0099;
+    }
+    .result {
+      margin-top: 30px;
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    .again-button {
+      display: block;
+      margin-top: 20px;
+      text-align: center;
+    }
+    .again-button a {
+      display: inline-block;
+      padding: 10px 20px;
+      background: #6a00ff;
+      color: #fff;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+    .again-button a:hover {
+      background: #4a0099;
+    }
+  </style>
+</head>
+<body>
+  <h1>Калькулятор энергетического имени</h1>
+  <p>Введите своё полное имя (кириллицей):</p>
+  <input type="text" id="nameInput" placeholder="Например, Анна Петрова">
+  <button onclick="calculateNameEnergy()">Рассчитать</button>
+
+  <div class="result" id="result" style="display:none"></div>
+
+  <script>
+    const letterValues = {
+      'А': 1, 'Б': 2, 'В': 3, 'Г': 4, 'Д': 5, 'Е': 6, 'Ё': 7, 'Ж': 8, 'З': 9,
+      'И': 1, 'Й': 2, 'К': 3, 'Л': 4, 'М': 5, 'Н': 6, 'О': 7, 'П': 8, 'Р': 9,
+      'С': 1, 'Т': 2, 'У': 3, 'Ф': 4, 'Х': 5, 'Ц': 6, 'Ч': 7, 'Ш': 8, 'Щ': 9,
+      'Ъ': 0, 'Ы': 1, 'Ь': 2, 'Э': 3, 'Ю': 4, 'Я': 5
+    };
+
+    const interpretations = {
+      1: 'Сильное лидерство, внутренняя устойчивость, мощная харизма. Склонность к самостоятельной духовной работе.',
+      2: 'Чувствительность, интуиция, эмпатия. Прекрасно чувствует энергию других, подходит для практик на взаимодействие.',
+      3: 'Творческая энергия, сила слова и образа. Подходит для ченнелинга, медитаций, работы с визуализацией.',
+      4: 'Заземлённость, стабильность, защита. Хороший канал для телесных практик и очищающих ритуалов.',
+      5: 'Энергия перемен, трансформации, движения. Быстрый канал, легко переключается, хорош для энергетических чисток.',
+      6: 'Сердечность, забота, исцеление. Подходит для целительских практик и помощи другим.',
+      7: 'Мистицизм, связь с Высшими силами. Подходит для регрессий, контактов с родом и прошлым.',
+      8: 'Энергия силы, денег и власти. Подходит для энергетической работы с изобилием и бизнесом.',
+      9: 'Мудрость, зрелость, предназначение. Часто указывает на кармическую миссию и глубокий духовный путь.'
+    };
+
+    function calculateNameEnergy() {
+      const name = document.getElementById('nameInput').value.toUpperCase().replace(/[^А-ЯЁ]/g, '');
+      if (!name) return;
+
+      let total = 0;
+      for (let char of name) {
+        total += letterValues[char] || 0;
+      }
+
+      // Сложение до одной цифры
+      while (total > 9) {
+        total = total.toString().split('').reduce((a, b) => a + parseInt(b), 0);
+      }
+
+      const resultDiv = document.getElementById('result');
+      resultDiv.innerHTML = `
+        <h2>Ваше число: ${total}</h2>
+        <p>${interpretations[total]}</p>
+        <div class="again-button">
+          <a href="https://t.me/oksanaregres" target="_blank">Пройти ещё один тест</a>
+        </div>
+      `;
+      resultDiv.style.display = 'block';
+    }
+  </script>
+</body>
+</html>
