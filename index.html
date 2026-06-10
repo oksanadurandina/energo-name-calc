@@ -1,20 +1,55 @@
 <div style="max-width: 480px; margin: auto; padding: 20px; background: #fdf6ff; border-radius: 20px; font-family: sans-serif; color: #4a145e; text-align: center;">
-  <h2 style="font-size: 22px; margin-bottom: 10px;">🔮 Калькулятор энергетического имени</h2>
-  <p style="font-size: 16px; margin-bottom: 20px;">Узнай, какую силу несёт твоё имя</p>
 
-  <input id="nameInput" placeholder="Введи полное имя" style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; font-size: 16px;" />
+  <h1 style="font-size: 28px; margin-bottom: 5px;">
+    Оксана Дурандина
+  </h1>
 
-  <button onclick="calculateEnergy()" style="width: 100%; background: #d2a8f0; color: white; font-size: 16px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 20px;">
+  <div style="font-size: 18px; margin-bottom: 10px;">
+    Регрессолог, ченнелер
+  </div>
+
+  <div style="font-size: 15px; margin-bottom: 30px; color: #6a3b80; line-height: 1.5;">
+    Помогаю вспомнить, кем ты была до того, как забыла, кем ты есть
+  </div>
+
+  <h2 style="font-size: 22px; margin-bottom: 10px;">
+    🔮 Калькулятор энергетического имени
+  </h2>
+
+  <p style="font-size: 16px; margin-bottom: 20px;">
+    Узнай, какую силу несёт твоё имя
+  </p>
+
+  <input
+    id="nameInput"
+    placeholder="Введи полное имя"
+    style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; font-size: 16px;"
+  />
+
+  <button
+    onclick="calculateEnergy()"
+    style="width: 100%; background: #d2a8f0; color: white; font-size: 16px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 20px;"
+  >
     🔍 Узнать значение
   </button>
 
-  <div id="result" style="font-size: 16px; padding: 10px; background: #f0e1ff; border-radius: 12px; display: none;"></div>
+  <div
+    id="result"
+    style="font-size: 16px; padding: 10px; background: #f0e1ff; border-radius: 12px; display: none;"
+  ></div>
 
-  <a id="tryAgain" href="https://t.me/oksanaregres" style="display: none; margin-top: 20px; text-decoration: none; display: inline-block; background: #b78ad1; color: white; padding: 12px 20px; border-radius: 12px; font-size: 16px;">🔁 Пройти ещё тест</a>
+  <a
+    id="universeHint"
+    href="https://t.me/oksanaregres_bot?start=c1757489530506-ds"
+    style="display: none; margin-top: 20px; text-decoration: none; background: #b78ad1; color: white; padding: 12px 20px; border-radius: 12px; font-size: 16px;"
+  >
+    ✨ Подсказка от Вселенной
+  </a>
 
   <script>
     function nameToNumber(name) {
       const letters = name.toUpperCase().replace(/[^A-ZА-ЯЁ]/g, '').split('');
+
       const letterMap = {
         'А':1,'Б':2,'В':3,'Г':4,'Д':5,'Е':6,'Ё':7,'Ж':8,'З':9,'И':1,'Й':2,
         'К':3,'Л':4,'М':5,'Н':6,'О':7,'П':8,'Р':9,'С':1,'Т':2,'У':3,'Ф':4,
@@ -23,45 +58,65 @@
         'L':3,'M':4,'N':5,'O':6,'P':7,'Q':8,'R':9,'S':1,'T':2,'U':3,'V':4,
         'W':5,'X':6,'Y':7,'Z':8
       };
+
       let sum = 0;
+
       letters.forEach(l => {
         sum += letterMap[l] || 0;
       });
+
       while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
         sum = sum.toString().split('').reduce((a, b) => a + parseInt(b), 0);
       }
+
       return sum;
     }
 
     function getMeaning(num) {
       const meanings = {
-        1: "Лидерская энергия. Ты способен вести других за собой и вдохновлять.",
-        2: "Интуитивная чувствительность. Эмпат, медиум, природная склонность к энергоработе.",
-        3: "Творец. Твоя сила — в проявлении себя через творчество и речь.",
-        4: "Стабилизатор. Энергия поддержки и заземления, хорошо работаешь с телом.",
-        5: "Проводник перемен. Ты умеешь проводить энергию трансформаций.",
-        6: "Целитель. Способность исцелять людей и пространство.",
-        7: "Мудрец. Глубокий контакт с духовным миром и Высшими силами.",
-        8: "Материализатор. Мощная энергия реализации и денежного потока.",
-        9: "Миссия служения. Ты — энергия любви, сострадания и проводник света.",
-        11: "Просветлённый мастер. Высшая духовная энергия, воплощённая на Земле.",
-        22: "Архитектор нового мира. Мощная энергия созидания на глобальном уровне.",
-        33: "Учитель человечества. Ты несёшь свет, любовь и исцеление всем, кто рядом."
+        1: "Лидерская энергия. Ты способна вести других за собой и вдохновлять своим примером.",
+        2: "Интуитивная чувствительность. Ты хорошо чувствуешь людей и умеешь замечать то, что скрыто от других.",
+        3: "Творческая энергия. Твоя сила проявляется через самовыражение, идеи и общение.",
+        4: "Энергия стабильности. Ты умеешь создавать надёжную опору для себя и окружающих.",
+        5: "Энергия перемен. Ты легко адаптируешься к новому и умеешь находить возможности для роста.",
+        6: "Энергия заботы и исцеления. Люди часто чувствуют рядом с тобой поддержку и тепло.",
+        7: "Энергия мудрости. Ты стремишься к глубокому пониманию жизни и духовному развитию.",
+        8: "Энергия реализации. У тебя есть потенциал для достижения значимых материальных результатов.",
+        9: "Энергия служения. Ты умеешь вдохновлять людей и помогать им видеть лучшее в себе.",
+        11: "Энергия духовного проводника. Ты обладаешь сильной интуицией и способностью вдохновлять других.",
+        22: "Энергия созидателя. Ты способна воплощать в жизнь масштабные идеи и проекты.",
+        33: "Энергия учителя. Ты можешь делиться знаниями и помогать людям находить свой путь."
       };
-      return meanings[num] || "Уникальное сочетание вибраций. Твоя энергия многогранна и не поддаётся одному описанию.";
+
+      return meanings[num] || "Твоё имя содержит уникальное сочетание энергий, которое невозможно описать одним значением.";
     }
 
     function calculateEnergy() {
       const name = document.getElementById('nameInput').value;
+
       if (!name.trim()) {
         alert("Пожалуйста, введи имя");
         return;
       }
+
       const number = nameToNumber(name);
       const message = getMeaning(number);
-      document.getElementById('result').innerHTML = "<b>Число имени:</b> " + number + "<br><br>" + message;
+
+      document.getElementById('result').innerHTML =
+        "<b>Число имени:</b> " +
+        number +
+        "<br><br>" +
+        message;
+
       document.getElementById('result').style.display = 'block';
-      document.getElementById('tryAgain').style.display = 'inline-block';
+      document.getElementById('universeHint').style.display = 'inline-block';
     }
   </script>
+
+  <div style="margin-top: 40px; font-size: 13px; color: #8b6b99; line-height: 1.6;">
+    Оксана Дурандина<br>
+    Регрессолог<br>
+    Ченнелер
+  </div>
+
 </div>
