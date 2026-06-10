@@ -1,122 +1,329 @@
-<div style="max-width: 480px; margin: auto; padding: 20px; background: #fdf6ff; border-radius: 20px; font-family: sans-serif; color: #4a145e; text-align: center;">
+```html
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <h1 style="font-size: 28px; margin-bottom: 5px;">
-    Оксана Дурандина
-  </h1>
+<title>Калькулятор энергетического имени</title>
 
-  <div style="font-size: 18px; margin-bottom: 10px;">
-    Регрессолог, ченнелер
-  </div>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet">
 
-  <div style="font-size: 15px; margin-bottom: 30px; color: #6a3b80; line-height: 1.5;">
-    Помогаю вспомнить, кем ты была до того, как забыла, кем ты есть
-  </div>
+<style>
 
-  <h2 style="font-size: 22px; margin-bottom: 10px;">
-    🔮 Калькулятор энергетического имени
-  </h2>
+*{
+margin:0;
+padding:0;
+box-sizing:border-box;
+}
 
-  <p style="font-size: 16px; margin-bottom: 20px;">
-    Узнай, какую силу несёт твоё имя
-  </p>
+body{
+font-family:'Montserrat',sans-serif;
+background:
+radial-gradient(circle at top,#f8ecff 0%,#f3e3ff 40%,#ead3ff 100%);
+min-height:100vh;
+padding:20px;
+color:#4a145e;
+}
 
-  <input
-    id="nameInput"
-    placeholder="Введи полное имя"
-    style="width: 100%; padding: 12px; border-radius: 12px; border: 1px solid #ddd; margin-bottom: 15px; font-size: 16px;"
-  />
+.wrapper{
+max-width:520px;
+margin:auto;
+}
 
-  <button
-    onclick="calculateEnergy()"
-    style="width: 100%; background: #d2a8f0; color: white; font-size: 16px; padding: 12px; border: none; border-radius: 12px; cursor: pointer; margin-bottom: 20px;"
-  >
-    🔍 Узнать значение
-  </button>
+.header{
+text-align:center;
+padding:30px 20px;
+margin-bottom:20px;
+}
 
-  <div
-    id="result"
-    style="font-size: 16px; padding: 10px; background: #f0e1ff; border-radius: 12px; display: none;"
-  ></div>
+.header h1{
+font-family:'Cormorant Garamond',serif;
+font-size:42px;
+font-weight:700;
+line-height:1.1;
+margin-bottom:10px;
+color:#4a145e;
+}
 
-  <a
-    id="universeHint"
-    href="https://t.me/oksanaregres_bot?start=c1757489530506-ds"
-    style="display: none; margin-top: 20px; text-decoration: none; background: #b78ad1; color: white; padding: 12px 20px; border-radius: 12px; font-size: 16px;"
-  >
-    ✨ Подсказка от Вселенной
-  </a>
+.subtitle{
+font-size:17px;
+font-weight:500;
+margin-bottom:14px;
+}
 
-  <script>
-    function nameToNumber(name) {
-      const letters = name.toUpperCase().replace(/[^A-ZА-ЯЁ]/g, '').split('');
+.slogan{
+font-size:15px;
+line-height:1.6;
+opacity:0.85;
+max-width:420px;
+margin:auto;
+}
 
-      const letterMap = {
-        'А':1,'Б':2,'В':3,'Г':4,'Д':5,'Е':6,'Ё':7,'Ж':8,'З':9,'И':1,'Й':2,
-        'К':3,'Л':4,'М':5,'Н':6,'О':7,'П':8,'Р':9,'С':1,'Т':2,'У':3,'Ф':4,
-        'Х':5,'Ц':6,'Ч':7,'Ш':8,'Щ':9,'Ъ':1,'Ы':2,'Ь':3,'Э':4,'Ю':5,'Я':6,
-        'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,'I':9,'J':1,'K':2,
-        'L':3,'M':4,'N':5,'O':6,'P':7,'Q':8,'R':9,'S':1,'T':2,'U':3,'V':4,
-        'W':5,'X':6,'Y':7,'Z':8
-      };
+.card{
+background:rgba(255,255,255,0.78);
+backdrop-filter:blur(12px);
+border-radius:24px;
+padding:28px;
+box-shadow:
+0 10px 30px rgba(128,0,128,.12),
+0 2px 10px rgba(128,0,128,.08);
+}
 
-      let sum = 0;
+.card h2{
+font-family:'Cormorant Garamond',serif;
+font-size:32px;
+margin-bottom:10px;
+text-align:center;
+}
 
-      letters.forEach(l => {
-        sum += letterMap[l] || 0;
-      });
+.card p{
+text-align:center;
+line-height:1.6;
+margin-bottom:20px;
+}
 
-      while (sum > 9 && sum !== 11 && sum !== 22 && sum !== 33) {
-        sum = sum.toString().split('').reduce((a, b) => a + parseInt(b), 0);
-      }
+input{
+width:100%;
+padding:14px;
+border-radius:14px;
+border:1px solid #d9c3ea;
+font-size:16px;
+outline:none;
+margin-bottom:15px;
+background:white;
+}
 
-      return sum;
-    }
+input:focus{
+border-color:#b78ad1;
+}
 
-    function getMeaning(num) {
-      const meanings = {
-        1: "Лидерская энергия. Ты способна вести других за собой и вдохновлять своим примером.",
-        2: "Интуитивная чувствительность. Ты хорошо чувствуешь людей и умеешь замечать то, что скрыто от других.",
-        3: "Творческая энергия. Твоя сила проявляется через самовыражение, идеи и общение.",
-        4: "Энергия стабильности. Ты умеешь создавать надёжную опору для себя и окружающих.",
-        5: "Энергия перемен. Ты легко адаптируешься к новому и умеешь находить возможности для роста.",
-        6: "Энергия заботы и исцеления. Люди часто чувствуют рядом с тобой поддержку и тепло.",
-        7: "Энергия мудрости. Ты стремишься к глубокому пониманию жизни и духовному развитию.",
-        8: "Энергия реализации. У тебя есть потенциал для достижения значимых материальных результатов.",
-        9: "Энергия служения. Ты умеешь вдохновлять людей и помогать им видеть лучшее в себе.",
-        11: "Энергия духовного проводника. Ты обладаешь сильной интуицией и способностью вдохновлять других.",
-        22: "Энергия созидателя. Ты способна воплощать в жизнь масштабные идеи и проекты.",
-        33: "Энергия учителя. Ты можешь делиться знаниями и помогать людям находить свой путь."
-      };
+button{
+width:100%;
+border:none;
+padding:14px;
+border-radius:14px;
+cursor:pointer;
+font-size:16px;
+font-weight:600;
+background:#c596ea;
+color:white;
+transition:.3s;
+}
 
-      return meanings[num] || "Твоё имя содержит уникальное сочетание энергий, которое невозможно описать одним значением.";
-    }
+button:hover{
+transform:translateY(-2px);
+}
 
-    function calculateEnergy() {
-      const name = document.getElementById('nameInput').value;
+#result{
+display:none;
+margin-top:20px;
+padding:18px;
+border-radius:16px;
+background:#f3e5ff;
+line-height:1.7;
+font-size:15px;
+}
 
-      if (!name.trim()) {
-        alert("Пожалуйста, введи имя");
-        return;
-      }
+#universeHint{
+display:none;
+margin-top:20px;
+text-decoration:none;
+background:#a86fd1;
+color:white;
+padding:14px 20px;
+border-radius:14px;
+font-weight:600;
+transition:.3s;
+display:inline-block;
+}
 
-      const number = nameToNumber(name);
-      const message = getMeaning(number);
+#universeHint:hover{
+transform:translateY(-2px);
+}
 
-      document.getElementById('result').innerHTML =
-        "<b>Число имени:</b> " +
-        number +
-        "<br><br>" +
-        message;
+.button-wrap{
+text-align:center;
+}
 
-      document.getElementById('result').style.display = 'block';
-      document.getElementById('universeHint').style.display = 'inline-block';
-    }
-  </script>
+.footer{
+text-align:center;
+margin-top:30px;
+font-size:13px;
+opacity:.75;
+padding-bottom:15px;
+}
 
-  <div style="margin-top: 40px; font-size: 13px; color: #8b6b99; line-height: 1.6;">
-    Оксана Дурандина<br>
-    Регрессолог<br>
-    Ченнелер
-  </div>
+@media (max-width:480px){
+
+.header h1{
+font-size:34px;
+}
+
+.card{
+padding:22px;
+}
+
+.card h2{
+font-size:28px;
+}
+
+.subtitle{
+font-size:16px;
+}
+
+.slogan{
+font-size:14px;
+}
+
+}
+
+</style>
+</head>
+
+<body>
+
+<div class="wrapper">
+
+<div class="header">
+<h1>Оксана Дурандина</h1>
+
+<div class="subtitle">
+Регрессолог, ченнелер
+</div>
+
+<div class="slogan">
+Помогаю вспомнить, кем ты была до того, как забыла, кем ты есть
+</div>
+</div>
+
+<div class="card">
+
+<h2>🔮 Калькулятор энергетического имени</h2>
+
+<p>
+Узнай, какую силу несёт твоё имя
+</p>
+
+<input
+id="nameInput"
+placeholder="Введи полное имя"
+/>
+
+<button onclick="calculateEnergy()">
+🔍 Узнать значение
+</button>
+
+<div id="result"></div>
+
+<div class="button-wrap">
+<a
+id="universeHint"
+href="https://t.me/oksanaregres_bot?start=c1757489530506-ds"
+target="_blank">
+✨ Подсказка от Вселенной
+</a>
+</div>
 
 </div>
+
+<div class="footer">
+Оксана Дурандина • Регрессолог • Ченнелер
+</div>
+
+</div>
+
+<script>
+
+function nameToNumber(name) {
+
+const letters = name
+.toUpperCase()
+.replace(/[^A-ZА-ЯЁ]/g,'')
+.split('');
+
+const letterMap = {
+'А':1,'Б':2,'В':3,'Г':4,'Д':5,'Е':6,'Ё':7,'Ж':8,'З':9,'И':1,'Й':2,
+'К':3,'Л':4,'М':5,'Н':6,'О':7,'П':8,'Р':9,'С':1,'Т':2,'У':3,'Ф':4,
+'Х':5,'Ц':6,'Ч':7,'Ш':8,'Щ':9,'Ъ':1,'Ы':2,'Ь':3,'Э':4,'Ю':5,'Я':6,
+'A':1,'B':2,'C':3,'D':4,'E':5,'F':6,'G':7,'H':8,'I':9,'J':1,'K':2,
+'L':3,'M':4,'N':5,'O':6,'P':7,'Q':8,'R':9,'S':1,'T':2,'U':3,'V':4,
+'W':5,'X':6,'Y':7,'Z':8
+};
+
+let sum = 0;
+
+letters.forEach(letter=>{
+sum += letterMap[letter] || 0;
+});
+
+while(sum > 9 && sum !== 11 && sum !== 22 && sum !== 33){
+sum = sum
+.toString()
+.split('')
+.reduce((a,b)=>a + parseInt(b),0);
+}
+
+return sum;
+}
+
+function getMeaning(num){
+
+const meanings = {
+
+1:"Лидерская энергия. Ты способна вдохновлять других своим примером и уверенно двигаться к поставленным целям.",
+
+2:"Интуитивная чувствительность. Ты хорошо чувствуешь людей и умеешь замечать то, что остаётся незаметным для других.",
+
+3:"Творческая энергия. Твоя сила проявляется через самовыражение, идеи, общение и создание нового.",
+
+4:"Энергия стабильности. Ты умеешь создавать надёжную основу для себя и для близких людей.",
+
+5:"Энергия перемен. Ты легко адаптируешься к новым обстоятельствам и умеешь находить возможности для развития.",
+
+6:"Энергия заботы и исцеления. Люди часто чувствуют рядом с тобой поддержку, тепло и принятие.",
+
+7:"Энергия мудрости. Ты стремишься к глубокому пониманию жизни и духовному развитию.",
+
+8:"Энергия реализации. У тебя есть потенциал для достижения значимых результатов и роста благосостояния.",
+
+9:"Энергия служения. Ты умеешь вдохновлять людей и помогать им раскрывать свои лучшие качества.",
+
+11:"Энергия духовного проводника. Ты обладаешь сильной интуицией и способностью вдохновлять окружающих.",
+
+22:"Энергия созидателя. Ты способна воплощать в жизнь масштабные идеи и долгосрочные проекты.",
+
+33:"Энергия учителя. Ты можешь передавать знания и помогать людям находить собственный путь."
+};
+
+return meanings[num] ||
+"Твоё имя содержит уникальное сочетание энергий, которое невозможно описать одним значением.";
+}
+
+function calculateEnergy(){
+
+const name = document.getElementById('nameInput').value;
+
+if(!name.trim()){
+alert('Пожалуйста, введи имя');
+return;
+}
+
+const number = nameToNumber(name);
+const message = getMeaning(number);
+
+document.getElementById('result').innerHTML =
+'<strong>Число имени:</strong> ' +
+number +
+'<br><br>' +
+message;
+
+document.getElementById('result').style.display='block';
+document.getElementById('universeHint').style.display='inline-block';
+}
+
+</script>
+
+</body>
+</html>
+```
